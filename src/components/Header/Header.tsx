@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link, useLocation } from "react-router-dom";
 import { NavItemProps } from "../../types";
 import logoSvg from "@images/svg/logo.svg";
 
@@ -19,7 +20,7 @@ const Bar = styled.header`
   width: 100%;
 `;
 
-const Logo = styled.a`
+const Logo = styled(Link)`
   color: white;
   text-decoration: none;
   display: flex;
@@ -44,11 +45,11 @@ const NavLinks = styled.ul`
   font-weight: 700;
 `;
 
-const NavItem = styled.li`
+const NavItem = styled.li<{ isActive?: boolean }>`
   a {
-    color: white;
+    color: ${props => props.isActive ? 'white' : 'var(--colour-white-20)'};
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.5rem;
 
     &:hover {
       opacity: 0.9;
@@ -56,28 +57,32 @@ const NavItem = styled.li`
   }
 `;
 
-const NavLink: React.FC<NavItemProps> = ({ href, children }) => (
-  <NavItem>
-    <a href={href}>{children}</a>
-  </NavItem>
-);
+const NavLink: React.FC<NavItemProps> = ({ href, children }) => {
+  const location = useLocation();
+  const isActive = location.pathname === href;
+  
+  return (
+    <NavItem isActive={isActive}>
+      <Link to={href}>{children}</Link>
+    </NavItem>
+  );
+};
 
 const Header: React.FC = () => {
   return (
     <Bar>
       <Logo
-        href="https://www.stan.com.au/"
+        to="/"
         title="Stan."
-        rel="home"
         data-event-target="header-logo"
       >
         <img src={logoSvg} alt="Stan Logo" />
       </Logo>
 
       <NavLinks>
-        <NavLink href="#home">Home</NavLink>
-        <NavLink href="#about">TV Shows</NavLink>
-        <NavLink href="#services">Movies</NavLink>
+        <NavLink href="/">Home</NavLink>
+        <NavLink href="/tv-shows">TV Shows</NavLink>
+        <NavLink href="/movies">Movies</NavLink>
       </NavLinks>
     </Bar>
   );

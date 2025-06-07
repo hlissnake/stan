@@ -1,6 +1,9 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "./components/Header/Header";
+import Home from "./pages/Home";
+import Program from "./pages/Program";
 import "./styles.css";
 
 const GlobalStyle = createGlobalStyle`
@@ -33,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
     --layout-gutter: 2rem;
     --component-margin: 2rem;
     --colour-charcoal: #141414;
+    --colour-white-20: hsla(0, 0%, 100%, .2);
     --font-family: "Garet", sans-serif;
   }
 `;
@@ -46,8 +50,7 @@ const AppContainer = styled.div`
 `;
 
 const MainContent = styled.main`
-  margin-top: 64px;
-  padding: 2rem;
+  margin-top: 5rem;
   flex: 1;
 `;
 
@@ -70,15 +73,18 @@ const ContentWrapper = styled.div`
 
 const App: React.FC = () => {
   return (
-    <>
+    <Router>
       <GlobalStyle />
       <AppContainer>
         <Header />
         <MainContent>
-          <ContentWrapper></ContentWrapper>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/program" element={<Program />} />
+          </Routes>
         </MainContent>
       </AppContainer>
-    </>
+    </Router>
   );
 };
 
