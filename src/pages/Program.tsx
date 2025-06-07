@@ -1,5 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+import useBackspace from "../hooks/useBackspace";
 
 const ProgramContainer = styled.div`
   color: white;
@@ -18,15 +20,22 @@ const ProgramDescription = styled.p`
 `;
 
 const Program: React.FC = () => {
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+
+  useBackspace(() => {
+    navigate("/");
+  });
+
   return (
     <ProgramContainer>
-      <ProgramTitle>Program Details</ProgramTitle>
+      <ProgramTitle>Program {id}</ProgramTitle>
       <ProgramDescription>
-        Explore our featured programs and discover your next favorite show.
-        From blockbuster movies to award-winning TV series, we have it all.
+        Explore our featured programs and discover your next favorite show. From
+        blockbuster movies to award-winning TV series, we have it all.
       </ProgramDescription>
     </ProgramContainer>
   );
 };
 
-export default Program; 
+export default Program;

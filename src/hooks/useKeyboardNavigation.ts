@@ -3,13 +3,12 @@ import { useCallback, useEffect, useState } from "react";
 const useKeyboardNavigation = (
   onEnter: (index: number) => void,
   length: number,
-  enabled = true
 ) => {
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (length === 0 || !enabled) return;
+      if (length === 0) return;
       if (event.key === "ArrowRight") {
         event.preventDefault();
         setSelectedIndex((prev) => (prev < length - 1 ? prev + 1 : prev));
@@ -19,12 +18,9 @@ const useKeyboardNavigation = (
       } else if (event.key === "Enter") {
         event.preventDefault();
         onEnter(selectedIndex);
-      } else if (event.key === "Escape") {
-        event.preventDefault();
-        onEnter(-1);
       }
     },
-    [onEnter, selectedIndex, length, enabled]
+    [onEnter, selectedIndex, length]
   );
 
   useEffect(() => {

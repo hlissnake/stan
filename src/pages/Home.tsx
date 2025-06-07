@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Carousel from "../components/Carousel/Carousel";
 import { Link, useNavigate } from "react-router-dom";
 
-const slides = [
+const data = [
   {
     id: 1,
     content:
@@ -71,7 +71,7 @@ const Home: React.FC = () => {
   const handleEnter = useCallback(
     (index: number) => {
       if (index >= 0) {
-        navigate(`/program/${slides[index].id}`);
+        navigate(`/program/${data[index].id}`);
       }
     },
     [navigate]
@@ -79,10 +79,10 @@ const Home: React.FC = () => {
 
   return (
     <HomeContainer>
-      <Carousel slides={slides} onEnter={handleEnter}>
-        {(slide, index) => (
-          <Link to={`/program/${slide.id}`}>
-            <CarouselImage src={slide.content} />
+      <Carousel data={data} onEnter={handleEnter}>
+        {(item) => (
+          <Link to={`/program/${item.id}`}>
+            <CarouselImage src={item.content} />
           </Link>
         )}
       </Carousel>

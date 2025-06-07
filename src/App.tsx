@@ -7,7 +7,6 @@ import Program from "./pages/Program";
 import "./styles.css";
 
 const GlobalStyle = createGlobalStyle`
-
   @font-face {
     font-family: Garet;
     font-weight: 400;
@@ -35,13 +34,19 @@ const GlobalStyle = createGlobalStyle`
   :root {
     --entry-gutter-x: 0.5rem;
     --entry-gutter-y: 0.5rem;
-    --entry-count-grid: 5;
+    --entry-count-grid: 5; /* default for 720p */
     --layout-gutter: 2rem;
     --component-margin: 2rem;
     --background-color: #141414;
     --colour-stan-blue: #0072fb;
     --colour-white-20: hsla(0, 0%, 100%, .2);
     --font-family: "Garet", sans-serif;
+  }
+
+  @media (min-width: 1920px) {
+    :root {
+      --entry-count-grid: 8; /* for 1080p and above */
+    }
   }
 `;
 
