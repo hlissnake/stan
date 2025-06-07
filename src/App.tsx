@@ -33,9 +33,12 @@ const GlobalStyle = createGlobalStyle`
   }
     
   :root {
+    --entry-gutter-x: 0.5rem;
+    --entry-gutter-y: 0.5rem;
+    --entry-count-grid: 5;
     --layout-gutter: 2rem;
     --component-margin: 2rem;
-    --colour-charcoal: #141414;
+    --background-color: #141414;
     --colour-white-20: hsla(0, 0%, 100%, .2);
     --font-family: "Garet", sans-serif;
   }
@@ -45,30 +48,16 @@ const AppContainer = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--colour-charcoal);
+  background-color: var(--background-color);
   font: 400 1rem var(--font-family);
 `;
 
 const MainContent = styled.main`
-  margin-top: 5rem;
+  margin-top: 6rem;
   flex: 1;
-`;
-
-const ContentWrapper = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  h2 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    color: #666;
-  }
+  color: #fff;
+  padding-left: var(--layout-gutter);
+  padding-right: var(--layout-gutter);
 `;
 
 const App: React.FC = () => {

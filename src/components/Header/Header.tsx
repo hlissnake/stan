@@ -17,7 +17,6 @@ const Bar = styled.header`
   z-index: 10;
   padding-left: var(--layout-gutter);
   padding-right: var(--layout-gutter);
-  width: 100%;
 `;
 
 const Logo = styled(Link)`

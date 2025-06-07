@@ -1,32 +1,62 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import Carousel from "../components/Carousel/Carousel";
+import { Link } from "react-router-dom";
 
 const HomeContainer = styled.div`
   color: white;
-  padding: 2rem;
 `;
 
-const HomeTitle = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-`;
-
-const HomeDescription = styled.p`
-  font-size: 1.2rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
+const CarouselImage = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 const Home: React.FC = () => {
+  const slides = [
+    {
+      id: 1,
+      content:
+        "https://streamcoimg-a.akamaihd.net/000/672/98/67298-PosterArt-2039396c9e27d6271c96776414d6a38c.jpg?resize=512px:*&quality=75&preferredFormat=image/jpeg",
+    },
+    {
+      id: 2,
+      content:
+        "https://streamcoimg-a.akamaihd.net/000/672/98/67298-PosterArt-2039396c9e27d6271c96776414d6a38c.jpg?resize=512px:*&quality=75&preferredFormat=image/jpeg",
+    },
+    {
+      id: 3,
+      content:
+        "https://streamcoimg-a.akamaihd.net/000/672/98/67298-PosterArt-2039396c9e27d6271c96776414d6a38c.jpg?resize=512px:*&quality=75&preferredFormat=image/jpeg",
+    },
+    {
+      id: 4,
+      content:
+        "https://streamcoimg-a.akamaihd.net/000/672/98/67298-PosterArt-2039396c9e27d6271c96776414d6a38c.jpg?resize=512px:*&quality=75&preferredFormat=image/jpeg",
+    },
+    {
+      id: 5,
+      content:
+        "https://streamcoimg-a.akamaihd.net/000/672/98/67298-PosterArt-2039396c9e27d6271c96776414d6a38c.jpg?resize=512px:*&quality=75&preferredFormat=image/jpeg",
+    },
+    {
+      id: 6,
+      content:
+        "https://streamcoimg-a.akamaihd.net/000/672/98/67298-PosterArt-2039396c9e27d6271c96776414d6a38c.jpg?resize=512px:*&quality=75&preferredFormat=image/jpeg",
+    },
+  ];
+
   return (
     <HomeContainer>
-      <HomeTitle>Welcome to Stan</HomeTitle>
-      <HomeDescription>
-        Your ultimate destination for streaming movies and TV shows.
-        Discover our extensive collection of entertainment content.
-      </HomeDescription>
+      <Carousel slides={slides}>
+        {(slide, index) => (
+          <Link to={`/program/${slide.id}`}>
+            <CarouselImage src={slide.content} />
+          </Link>
+        )}
+      </Carousel>
     </HomeContainer>
   );
 };
 
-export default Home; 
+export default Home;
