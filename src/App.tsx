@@ -39,6 +39,7 @@ const GlobalStyle = createGlobalStyle`
     --layout-gutter: 2rem;
     --component-margin: 2rem;
     --background-color: #141414;
+    --colour-stan-blue: #0072fb;
     --colour-white-20: hsla(0, 0%, 100%, .2);
     --font-family: "Garet", sans-serif;
   }
@@ -56,8 +57,6 @@ const MainContent = styled.main`
   margin-top: 6rem;
   flex: 1;
   color: #fff;
-  padding-left: var(--layout-gutter);
-  padding-right: var(--layout-gutter);
 `;
 
 const App: React.FC = () => {
@@ -69,7 +68,7 @@ const App: React.FC = () => {
         <MainContent>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/program" element={<Program />} />
+            <Route path="/program/:id" element={<Program />} />
           </Routes>
         </MainContent>
       </AppContainer>
