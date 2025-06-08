@@ -11,9 +11,9 @@ const CarouselContainer = styled.div`
   padding-right: var(--layout-gutter);
   overflow: hidden;
 
-  @media (min-width: 1920px) {
-    overflow: visible; // TODO: will trigger window horizontal scrolling but will be OK in TV screen
-  }
+  // @media (min-width: 1920px) {
+  //   overflow: visible; // TODO: will trigger window horizontal scrolling but will be OK in TV screen
+  // }
 `;
 
 const CarouselTrack = styled.div`

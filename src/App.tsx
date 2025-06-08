@@ -1,10 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "./components/Header/Header";
 import Home from "./pages/Home";
 import Program from "./pages/Program";
 import "./styles.css";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -73,18 +75,20 @@ const MainContent = styled.main`
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <GlobalStyle />
-      <AppContainer>
-        <Header />
-        <MainContent>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/program/:id" element={<Program />} />
-          </Routes>
-        </MainContent>
-      </AppContainer>
-    </Router>
+    <Provider store={store}>
+      <BrowserRouter>
+        <GlobalStyle />
+        <AppContainer>
+          <Header />
+          <MainContent>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/program/:id" element={<Program />} />
+            </Routes>
+          </MainContent>
+        </AppContainer>
+      </BrowserRouter>
+    </Provider>
   );
 };
 
