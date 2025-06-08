@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import useBackspace from "../hooks/useBackspace";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { fetchPrograms } from "../store/slices/programsSlice";
 
 const ProgramContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  gap: var(--layout-gutter);
   color: white;
-  padding: 2rem;
+  padding: 0 var(--layout-gutter);
+`;
+
+const ProgramImage = styled.img`
+  width: 240px;
+  aspect-ratio: 228 / 342;
+  object-fit: cover;
 `;
 
 const ProgramTitle = styled.h1`
@@ -23,17 +34,28 @@ const Program: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
+  const dispatch = useAppDispatch();
+  const { programs, status } = useAppSelector((state) => state.programs);
+
+  const program = id ? programs.byIds[id] : null;
+
+  useEffect(() => {
+    if (programs.ids.length === 0 && status === "idle") {
+      dispatch(fetchPrograms());
+    }
+  }, [programs.ids, status]);
+
   useBackspace(() => {
     navigate("/");
   });
 
   return (
     <ProgramContainer>
-      <ProgramTitle>Program {id}</ProgramTitle>
-      <ProgramDescription>
-        Explore our featured programs and discover your next favorite show. From
-        blockbuster movies to award-winning TV series, we have it all.
-      </ProgramDescription>
+      <ProgramImage src={program?.image} />
+      <div>
+        <ProgramTitle>Program {id}</ProgramTitle>
+        <ProgramDescription>{program?.description}</ProgramDescription>
+      </div>
     </ProgramContainer>
   );
 };
