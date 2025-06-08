@@ -25,15 +25,26 @@ const CarouselTrack = styled.div`
   transition: transform 0.5s ease-in-out;
 `;
 
-const CarouselSlide = styled.div<{ isSelected?: boolean }>`
+const CarouselSlide = styled.div<{
+  isSelected?: boolean;
+  isLoading?: boolean;
+  isInView?: boolean;
+}>`
   flex: 0 0 auto;
   width: calc(100% / var(--entry-count-grid) - var(--entry-gutter-x));
-  height: 100%;
+  aspect-ratio: 228 / 342;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
+  ${(props) =>
+    props.isLoading
+      ? `background-color: var(--colour-white-20); opacity:1`
+      : ""};
+
+  opacity: ${(props) => (props.isInView ? 1 : 0)};
+  transition: opacity 0.4s ease-in-out 0.2s;
 
   &::after {
     content: "";
@@ -48,6 +59,7 @@ const CarouselSlide = styled.div<{ isSelected?: boolean }>`
 
 interface CarouselProps<T> {
   data: T[];
+  isLoading?: boolean;
   initialSlide?: number;
   onEnter: (index: number) => void;
   children: (slide: T, index: number) => React.ReactNode;
@@ -55,11 +67,14 @@ interface CarouselProps<T> {
 
 const Carousel = <T extends { id: number }>({
   data,
+  isLoading,
   onEnter,
   children: onRender,
 }: CarouselProps<T>) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [translateX, setTranslateX] = React.useState(0);
+  const [startVisible, setStartVisible] = React.useState(0);
+  const [endVisible, setEndVisible] = React.useState(0);
 
   const screenSize = useScreenSize();
 
@@ -87,6 +102,7 @@ const Carousel = <T extends { id: number }>({
   }, [selectedIndex, slidePageSize]);
 
   useEffect(() => {
+    if (data.length == 0) return;
     if ((currentSlide + 1) * slidePageSize > data.length) {
       setTranslateX(
         ((data.length - currentSlide * slidePageSize) * 100) / slidePageSize +
@@ -95,16 +111,38 @@ const Carousel = <T extends { id: number }>({
     } else {
       setTranslateX(currentSlide * 100);
     }
+    setStartVisible(currentSlide * slidePageSize - 1);
+    setEndVisible((currentSlide + 1) * slidePageSize + 1);
   }, [currentSlide, slidePageSize, data.length]);
+
+  if (isLoading) {
+    const dummyData = Array(slidePageSize + 1).fill(0);
+    return (
+      <CarouselContainer>
+        <CarouselTrack>
+          {dummyData.map((_, index) => (
+            <CarouselSlide key={index} isLoading isInView />
+          ))}
+        </CarouselTrack>
+      </CarouselContainer>
+    );
+  }
 
   return (
     <CarouselContainer>
       <CarouselTrack style={{ transform: `translateX(-${translateX}%)` }}>
-        {data.map((slide, index) => (
-          <CarouselSlide key={slide.id} isSelected={selectedIndex === index}>
-            {onRender(slide, index)}
-          </CarouselSlide>
-        ))}
+        {data.map((slide, index) => {
+          const isInView = true; //index >= startVisible && index <= endVisible;
+          return (
+            <CarouselSlide
+              key={slide.id}
+              isSelected={selectedIndex === index}
+              isInView={isInView}
+            >
+              {isInView && onRender(slide, index)}
+            </CarouselSlide>
+          );
+        })}
       </CarouselTrack>
     </CarouselContainer>
   );

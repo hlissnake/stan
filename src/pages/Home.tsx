@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import styled from "styled-components";
 import Carousel from "../components/Carousel/Carousel";
+import CarouselImage from "../components/Carousel/CarouselImage";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchPrograms } from "../store/slices/programsSlice";
@@ -9,7 +10,7 @@ const HomeContainer = styled.div`
   color: white;
 `;
 
-const CarouselImage = styled.img`
+const StyledImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -45,20 +46,28 @@ const Home: React.FC = () => {
     }
   }, [status, dispatch]);
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
   if (status === "failed") {
-    return <div data-testid="home-error">An unknown error occurred. please try again later</div>;
+    return (
+      <div data-testid="home-error">
+        An unknown error occurred. please try again later
+      </div>
+    );
   }
 
   return (
     <HomeContainer>
-      <Carousel data={carouselData} onEnter={handleEnter}>
+      <Carousel
+        data={carouselData}
+        onEnter={handleEnter}
+        isLoading={status === "loading"}
+      >
         {(program) => (
-          <Link to={`/program/${program.id}`}>
-            <CarouselImage src={program.image} alt="Program poster" />
+          <Link to={`/program/${program.id}`} style={{ width: "100%" }}>
+            <CarouselImage
+              src={program.image}
+              alt={`${program.title} poster`}
+            />
+            {/* <StyledImage src={program.image} alt={`${program.title} poster`} loading="lazy" /> */}
           </Link>
         )}
       </Carousel>

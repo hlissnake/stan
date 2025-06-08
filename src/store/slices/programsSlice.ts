@@ -61,6 +61,8 @@ export const fetchPrograms = createAsyncThunk(
     const programs = await fetchProgramsNormalized().catch((e) => {
       throw e;
     });
+    // testing for slow API request
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     return programs;
   }
 );
@@ -89,7 +91,7 @@ const programsSlice = createSlice({
       .addCase(fetchPrograms.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch programs";
-      })
+      });
   },
 });
 
