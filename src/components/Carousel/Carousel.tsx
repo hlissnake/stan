@@ -6,11 +6,14 @@ import useScreenSize from "../../hooks/useScreenSize";
 
 const CarouselContainer = styled.div`
   position: relative;
-  width: 100%;
   height: auto;
   padding-left: var(--layout-gutter);
   padding-right: var(--layout-gutter);
   overflow: hidden;
+
+  @media (min-width: 1920px) {
+    overflow: visible; // TODO: will trigger window horizontal scrolling but will be OK in TV screen
+  }
 `;
 
 const CarouselTrack = styled.div`
@@ -33,12 +36,12 @@ const CarouselSlide = styled.div<{ isSelected?: boolean }>`
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: -4px -4px 1px -4px;
     border: 3px solid var(--colour-stan-blue);
     border-radius: 4px;
-    opacity: ${props => props.isSelected ? 1 : 0};
+    opacity: ${(props) => (props.isSelected ? 1 : 0)};
     transition: opacity 0.2s ease;
   }
 `;
@@ -56,11 +59,13 @@ const Carousel = <T extends { id: number }>({
   children: onRender,
 }: CarouselProps<T>) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [translateX, setTranslateX] = React.useState(0);
+
   const screenSize = useScreenSize();
-  
+
   const slidePageSize = useMemo(() => {
     switch (screenSize) {
-      case 'XXL':
+      case "XXL":
         return 8; // 1080p
       default:
         return 5;
@@ -81,11 +86,20 @@ const Carousel = <T extends { id: number }>({
     });
   }, [selectedIndex, slidePageSize]);
 
+  useEffect(() => {
+    if ((currentSlide + 1) * slidePageSize > data.length) {
+      setTranslateX(
+        ((data.length - currentSlide * slidePageSize) * 100) / slidePageSize +
+          (currentSlide - 1) * 100
+      );
+    } else {
+      setTranslateX(currentSlide * 100);
+    }
+  }, [currentSlide, slidePageSize, data.length]);
+
   return (
     <CarouselContainer>
-      <CarouselTrack
-        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-      >
+      <CarouselTrack style={{ transform: `translateX(-${translateX}%)` }}>
         {data.map((slide, index) => (
           <CarouselSlide key={slide.id} isSelected={selectedIndex === index}>
             {onRender(slide, index)}

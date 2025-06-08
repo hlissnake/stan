@@ -36,11 +36,13 @@ const GlobalStyle = createGlobalStyle`
     --entry-gutter-y: 0.5rem;
     --entry-count-grid: 5; /* default for 720p */
     --layout-gutter: 2rem;
+    --layout-max-width: 120rem;
     --component-margin: 2rem;
     --background-color: #141414;
     --colour-stan-blue: #0072fb;
     --colour-white-20: hsla(0, 0%, 100%, .2);
     --font-family: "Garet", sans-serif;
+    background-color: var(--background-color);
   }
 
   @media (min-width: 1920px) {
@@ -56,6 +58,11 @@ const AppContainer = styled.div`
   flex-direction: column;
   background-color: var(--background-color);
   font: 400 1rem var(--font-family);
+
+  @media (min-width: 1920px) {
+    width: var(--layout-max-width);
+    margin: 0 auto;
+  }
 `;
 
 const MainContent = styled.main`
