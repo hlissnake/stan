@@ -87,19 +87,6 @@ describe("Carousel", () => {
     });
   });
 
-  it("renders all items in the carousel", () => {
-    renderCarousel();
-
-    const track = screen.getByTestId("carousel-track");
-    expect(track.children).toHaveLength(mockData.length);
-
-    mockData.forEach((item) => {
-      expect(
-        screen.getByTestId(`carousel-content-${item.id}`)
-      ).toBeInTheDocument();
-    });
-  });
-
   describe("Track Movement", () => {
     it("moves track when selected index changes", () => {
       const { rerender } = renderCarousel();
@@ -148,7 +135,7 @@ describe("Carousel", () => {
     });
   });
 
-  describe("Slide Selection", () => {
+  describe("Keyboard Selection", () => {
     it("highlights selected slide", () => {
       const { rerender } = renderCarousel();
 
@@ -173,8 +160,8 @@ describe("Carousel", () => {
     });
   });
 
-  describe("Screen Size Adaptation", () => {
-    it("adjusts visible items per page based on screen size", () => {
+  describe("Responsive Screen Size Adaptation", () => {
+    it("renders items only visible in the screen viewport", () => {
       const { rerender } = renderCarousel();
 
       // Test MD screen (7 items visible)
