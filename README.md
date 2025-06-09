@@ -1,6 +1,5 @@
 ### App Demo:
-
-[Stan App.webm](https://github.com/user-attachments/assets/045f3050-11b2-4a8a-9cc7-da2df5a0de5d)
+[Stan App (1).webm](https://github.com/user-attachments/assets/69b520ee-c9f3-4974-9449-f679797b3ee3)
 
 ### Running Project
 
