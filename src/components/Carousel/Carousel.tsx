@@ -23,7 +23,7 @@ const CarouselTrack = styled.div<{ $translateX: number }>`
   height: 100%;
   margin: var(--entry-gutter-x) 0;
   transition: transform 0.5s ease-in-out;
-  transform: translateX(-${props => props.$translateX}%);
+  transform: translateX(-${(props) => props.$translateX}%);
 `;
 
 const CarouselSlide = styled.div<{
@@ -39,8 +39,9 @@ const CarouselSlide = styled.div<{
   justify-content: center;
   text-align: center;
   position: relative;
-  background-color: ${props => props.$isLoading ? 'var(--colour-white-20)' : 'transparent'};
-  opacity: ${props => props.$isInView ? 1 : 0};
+  background-color: ${(props) =>
+    props.$isLoading ? "var(--colour-white-20)" : "transparent"};
+  opacity: ${(props) => (props.$isInView ? 1 : 0)};
   transition: opacity 0.4s ease-in-out 0.2s;
 
   &::after {
@@ -49,7 +50,7 @@ const CarouselSlide = styled.div<{
     inset: -4px;
     border: 3px solid var(--colour-stan-blue);
     border-radius: 4px;
-    opacity: ${props => props.$isSelected ? 1 : 0};
+    opacity: ${(props) => (props.$isSelected ? 1 : 0)};
     transition: opacity 0.2s ease;
   }
 `;
@@ -57,7 +58,7 @@ const CarouselSlide = styled.div<{
 interface CarouselProps<T> {
   data: T[];
   isLoading?: boolean;
-  initialSlide?: number;
+  initialSelected?: number;
   onEnter: (index: number) => void;
   children: (slide: T, index: number) => React.ReactNode;
 }
@@ -65,6 +66,7 @@ interface CarouselProps<T> {
 const Carousel = <T extends { id: number }>({
   data,
   isLoading,
+  initialSelected,
   onEnter,
   children: onRender,
 }: CarouselProps<T>) => {
@@ -84,7 +86,11 @@ const Carousel = <T extends { id: number }>({
     }
   }, [screenSize]);
 
-  const selectedIndex = useKeyboardNavigation(onEnter, data.length);
+  const selectedIndex = useKeyboardNavigation({
+    onEnter,
+    size: data.length,
+    initialSelected,
+  });
 
   useEffect(() => {
     setCurrentSlide((prev) => {
@@ -134,10 +140,7 @@ const Carousel = <T extends { id: number }>({
 
   return (
     <CarouselContainer data-testid="carousel-container">
-      <CarouselTrack
-        data-testid="carousel-track"
-        $translateX={translateX}
-      >
+      <CarouselTrack data-testid="carousel-track" $translateX={translateX}>
         {data.map((slide, index) => {
           // Use intersaction observer solution instead of calculation, will discuss trade-off later
           const isInView = true; //index >= startVisible && index <= endVisible;

@@ -3,7 +3,10 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import useBackspace from "../hooks/useBackspace";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { fetchPrograms } from "../store/slices/programsSlice";
+import {
+  fetchPrograms,
+  setSelectedProgram,
+} from "../store/slices/programsSlice";
 import StanImage from "../components/StanImage/StanImage";
 
 const ProgramContainer = styled.div`
@@ -58,16 +61,24 @@ const Program: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const dispatch = useAppDispatch();
-  const { programs, status } = useAppSelector((state) => state.programs);
+  const { programs, selectedProgram, status } = useAppSelector(
+    (state) => state.programs
+  );
 
-  const program = id ? programs.byIds[id] : null;
+  const program = selectedProgram || (id ? programs.byIds[id] : null);
   const isLoading = status === "loading";
 
   useEffect(() => {
     if (programs.ids.length === 0 && status === "idle") {
       dispatch(fetchPrograms());
     }
-  }, [programs.ids, status]);
+  }, [programs.ids, status, dispatch]);
+
+  useEffect(() => {
+    if (program) {
+      dispatch(setSelectedProgram(program));
+    }
+  }, [program]);
 
   useBackspace(() => {
     navigate("/");

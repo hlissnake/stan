@@ -1,17 +1,24 @@
 import { useCallback, useEffect, useState } from "react";
 
-const useKeyboardNavigation = (
-  onEnter: (index: number) => void,
-  length: number,
-) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+interface Props {
+  size: number;
+  onEnter: (index: number) => void;
+  initialSelected?: number;
+}
+
+const useKeyboardNavigation = ({
+  onEnter,
+  size,
+  initialSelected = 0,
+}: Props) => {
+  const [selectedIndex, setSelectedIndex] = useState(initialSelected);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (length === 0) return;
+      if (size === 0) return;
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        setSelectedIndex((prev) => (prev < length - 1 ? prev + 1 : prev));
+        setSelectedIndex((prev) => (prev < size - 1 ? prev + 1 : prev));
       } else if (event.key === "ArrowLeft") {
         event.preventDefault();
         setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
@@ -20,7 +27,7 @@ const useKeyboardNavigation = (
         onEnter(selectedIndex);
       }
     },
-    [onEnter, selectedIndex, length]
+    [onEnter, selectedIndex, size]
   );
 
   useEffect(() => {

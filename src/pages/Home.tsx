@@ -1,10 +1,13 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import Carousel from "../components/Carousel/Carousel";
 import StanImage from "../components/StanImage/StanImage";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { fetchPrograms } from "../store/slices/programsSlice";
+import {
+  fetchPrograms,
+  setSelectedProgram,
+} from "../store/slices/programsSlice";
 
 const HomeContainer = styled.div`
   color: white;
@@ -19,7 +22,9 @@ const HomeContainer = styled.div`
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { programs, status } = useAppSelector((state) => state.programs);
+  const { programs, selectedProgram, status } = useAppSelector(
+    (state) => state.programs
+  );
 
   const carouselData = React.useMemo(() => {
     return programs.ids.map((id) => {
@@ -28,16 +33,25 @@ const Home: React.FC = () => {
     });
   }, [programs]);
 
+  const selectedProgramIndex = useMemo(
+    () =>
+      selectedProgram
+        ? programs.ids.findIndex((id) => id === selectedProgram.id.toString())
+        : 0,
+    [selectedProgram]
+  );
+
   const handleEnter = useCallback(
     (index: number) => {
       if (index >= 0) {
-        const programId = carouselData[index]?.id;
-        if (programId) {
-          navigate(`/program/${programId}`);
+        const program = carouselData[index];
+        if (program) {
+          dispatch(setSelectedProgram(program));
+          navigate(`/program/${program.id}`);
         }
       }
     },
-    [navigate, carouselData]
+    [navigate, carouselData, dispatch]
   );
 
   useEffect(() => {
@@ -60,6 +74,7 @@ const Home: React.FC = () => {
         data={carouselData}
         onEnter={handleEnter}
         isLoading={status === "loading"}
+        initialSelected={selectedProgramIndex}
       >
         {(program) => (
           <Link to={`/program/${program.id}`} style={{ width: "100%" }}>
