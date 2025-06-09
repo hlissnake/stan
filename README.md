@@ -89,25 +89,24 @@ Core Component: **StanIamge**, **Carousel**
 
 #### Program page
 
-- Reuse the **StanImage** component for image src lazy preloading
+Reuse the **StanImage** component for image src lazy preloading
 
-- When **backspace** to Home page, should recover the selected Carousel item status
+When **backspace** to Home page, should recover the selected Carousel item status
 
   1. **Local State presist solution**:
 
-    - Need to presist the Carousel selection in Redux local state;
-    - Carousel component to receive the initial item selected index to make translate movement;
-    - Trade-off:
-      - Clear Pages framework as Home and Program are seperate;
-      - But complex logic on calculation, also with extra transition animation when restoring from backspace
+     - Need to presist the Carousel selection in Redux local state;
+     - Carousel component to receive the initial item selected index to make translate movement;
+     - Trade-off:
+       - Clear Pages framework as Home and Program are seperate;
+       - But complex logic on calculation, also with extra transition animation when restoring from backspace
 
   2. **Program page renderred as sub-router under Home path**:
 
-    - Home page will not un-mounted from DOM, so the Carousel component state is remained
-    - Trade-off:
-      - More memory usage in DOM element for Program page;
-      - Less Home Carousel DOM element mount and re-render;
-      - Easy for maintain, less calculation logic;
-
+     - Home page will not un-mounted from DOM, so the Carousel component state is remained
+     - Trade-off:
+       - More memory usage in DOM element for Program page;
+       - Less Home Carousel DOM element mount and re-render;
+       - Easy for maintain, less calculation logic;
 
 ### Component Unit Testing (TODO)
