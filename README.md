@@ -15,8 +15,8 @@ Then open http://localhost:3000/
 
 #### State management
 
-Typical Redux-Toolkit bioleplate in the project, only one slice called 'Programs' in reducer.
-The only different thing is: I'm using the Normalizerd Data Structure instead of List only, as the state bioleplate:
+Typical Redux-Toolkit bioleplate in the project, only one slice called **Programs** in reducer.
+The only different thing is: I'm using the **Normalizerd** Data Structure instead of List only, as the state bioleplate:
 
 ```typescript
   programs: {
@@ -27,7 +27,7 @@ The only different thing is: I'm using the Normalizerd Data Structure instead of
 
 #### Page framework
 
-I copy the same layout pattern from current Stan main site, and using some of the same CSS vars as well.
+I copy the same layout pattern from current **Stan main site**, and using some of the same CSS vars as well.
 Currently only support 720P and 1080P responsive screen size
 
 ```css
@@ -45,14 +45,14 @@ Currently only support 720P and 1080P responsive screen size
 
 #### Home page
 
-Core Component: StanIamge, Carousel
+Core Component: **StanIamge**, **Carousel**
 
-- StanImage: Image component which is only rendering inside the viewport screen, with image src lazy load. This component has been used for Home Carousel and Program both.
+- **StanImage**: Image component which is only rendering inside the viewport screen, with image src lazy load. This component has been used for Home Carousel and Program both.
 
   - **IntersectionObserver** for detecting viewport inside
   - **Preload image** src when Image DOM element render and mount
 
-- Carousel:
+- **Carousel**:
   [Carousel README.md](https://github.com/hlissnake/stan/tree/main/src/components/Carousel/README.md)
 
   - Core requirement: No more than six carousel images should be in the DOM at any time.
@@ -77,7 +77,7 @@ Core Component: StanIamge, Carousel
 
 #### Program page
 
-- Reuse the StanImage component for image src lazy preloading
+- Reuse the **StanImage** component for image src lazy preloading
 
 - TODO: when backspace to Home page, should recover the selected Carousel item status
   - Need to presist the Carousel selection in Redux local state;
