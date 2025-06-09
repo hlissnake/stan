@@ -52,7 +52,7 @@ describe("Carousel", () => {
     mockUseKeyboardNavigation.mockReturnValue(0); // Start at first item
   });
 
-  it("renders loading state correctly", () => {
+  it("renders loading skeleton correctly in 720P", () => {
     renderCarousel({ isLoading: true });
 
     const container = screen.getByTestId("carousel-container");
@@ -61,8 +61,23 @@ describe("Carousel", () => {
     const track = screen.getByTestId("carousel-track");
     expect(track).toBeInTheDocument();
 
-    const slides = screen.getAllByTestId(/carousel-slide-\d+/);
+    let slides = screen.getAllByTestId(/carousel-slide-\d+/);
     expect(slides).toHaveLength(6); // slidePageSize + 1 for MD screen
+
+    slides.forEach((slide) => {
+      expect(slide).toHaveStyle({
+        backgroundColor: "var(--colour-white-20)",
+        opacity: "1",
+      });
+    });
+  });
+
+  it("renders loading skeleton correctly in 1080P", () => {
+    mockUseScreenSize.mockReturnValue("XXL");
+    renderCarousel({ isLoading: true });
+
+    let slides = screen.getAllByTestId(/carousel-slide-\d+/);
+    expect(slides).toHaveLength(9); // slidePageSize + 1 for MD screen
 
     slides.forEach((slide) => {
       expect(slide).toHaveStyle({
@@ -74,6 +89,9 @@ describe("Carousel", () => {
 
   it("renders all items in the carousel", () => {
     renderCarousel();
+
+    const track = screen.getByTestId("carousel-track");
+    expect(track.children).toHaveLength(mockData.length);
 
     mockData.forEach((item) => {
       expect(
@@ -156,15 +174,15 @@ describe("Carousel", () => {
   });
 
   describe("Screen Size Adaptation", () => {
-    it("adjusts items per page based on screen size", () => {
-      // Test XXL screen (8 items)
-      mockUseScreenSize.mockReturnValue("XXL");
+    it("adjusts visible items per page based on screen size", () => {
       const { rerender } = renderCarousel();
-      let track = screen.getByTestId("carousel-track");
-      expect(track.children).toHaveLength(mockData.length);
 
-      // Test MD screen (5 items)
-      mockUseScreenSize.mockReturnValue("MD");
+      // Test MD screen (7 items visible)
+      let slides = screen.getAllByTestId(/carousel-content-\d+/);
+      expect(slides).toHaveLength(7);
+
+      // Test XXL screen (10 items visible)
+      mockUseScreenSize.mockReturnValue("XXL");
       rerender(
         <Carousel
           data={mockData}
@@ -174,8 +192,8 @@ describe("Carousel", () => {
           )}
         />
       );
-      track = screen.getByTestId("carousel-track");
-      expect(track.children).toHaveLength(mockData.length);
+      slides = screen.getAllByTestId(/carousel-content-\d+/);
+      expect(slides).toHaveLength(10);
     });
   });
 

@@ -8,8 +8,6 @@ interface StanImageProps {
 
 const ImageContainer = styled.div<{ $isInView?: boolean }>`
   width: 100%;
-  height: 100%;
-  aspect-ratio: 228 / 342;
   position: relative;
   opacity: ${(props) => (props.$isInView ? 1 : 0)};
   transition: opacity 0.3s ease-in-out 0.1s;

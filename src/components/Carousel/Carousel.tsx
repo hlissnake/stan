@@ -139,7 +139,7 @@ const Carousel = <T extends { id: number }>({
       <CarouselTrack data-testid="carousel-track" $translateX={translateX}>
         {data.map((slide, index) => {
           // Use intersaction observer solution instead of calculation, will discuss trade-off later
-          const isInView = true; //index >= startVisible && index <= endVisible;
+          const isInView = index >= startVisible && index <= endVisible;
           return (
             <CarouselSlide
               key={slide.id}
