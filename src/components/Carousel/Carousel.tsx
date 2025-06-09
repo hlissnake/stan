@@ -16,19 +16,20 @@ const CarouselContainer = styled.div`
   // }
 `;
 
-const CarouselTrack = styled.div`
+const CarouselTrack = styled.div<{ $translateX: number }>`
   display: flex;
   gap: var(--entry-gutter-x);
   width: auto;
   height: 100%;
   margin: var(--entry-gutter-x) 0;
   transition: transform 0.5s ease-in-out;
+  transform: translateX(-${props => props.$translateX}%);
 `;
 
 const CarouselSlide = styled.div<{
-  isSelected?: boolean;
-  isLoading?: boolean;
-  isInView?: boolean;
+  $isSelected?: boolean;
+  $isLoading?: boolean;
+  $isInView?: boolean;
 }>`
   flex: 0 0 auto;
   width: calc(100% / var(--entry-count-grid) - var(--entry-gutter-x));
@@ -38,12 +39,8 @@ const CarouselSlide = styled.div<{
   justify-content: center;
   text-align: center;
   position: relative;
-  ${(props) =>
-    props.isLoading
-      ? `background-color: var(--colour-white-20); opacity:1`
-      : ""};
-
-  opacity: ${(props) => (props.isInView ? 1 : 0)};
+  background-color: ${props => props.$isLoading ? 'var(--colour-white-20)' : 'transparent'};
+  opacity: ${props => props.$isInView ? 1 : 0};
   transition: opacity 0.4s ease-in-out 0.2s;
 
   &::after {
@@ -52,7 +49,7 @@ const CarouselSlide = styled.div<{
     inset: -4px;
     border: 3px solid var(--colour-stan-blue);
     border-radius: 4px;
-    opacity: ${(props) => (props.isSelected ? 1 : 0)};
+    opacity: ${props => props.$isSelected ? 1 : 0};
     transition: opacity 0.2s ease;
   }
 `;
@@ -102,7 +99,7 @@ const Carousel = <T extends { id: number }>({
   }, [selectedIndex, slidePageSize]);
 
   useEffect(() => {
-    if (data.length == 0) return;
+    if (data.length === 0) return;
     if ((currentSlide + 1) * slidePageSize > data.length) {
       // If last page less than one slide page size, then only translate to the end of list
       setTranslateX(
@@ -120,10 +117,15 @@ const Carousel = <T extends { id: number }>({
   if (isLoading) {
     const dummyData = Array(slidePageSize + 1).fill(0);
     return (
-      <CarouselContainer>
-        <CarouselTrack>
+      <CarouselContainer data-testid="carousel-container">
+        <CarouselTrack data-testid="carousel-track" $translateX={0}>
           {dummyData.map((_, index) => (
-            <CarouselSlide key={index} isLoading isInView />
+            <CarouselSlide
+              key={index}
+              data-testid={`carousel-slide-${index}`}
+              $isLoading
+              $isInView
+            />
           ))}
         </CarouselTrack>
       </CarouselContainer>
@@ -131,16 +133,20 @@ const Carousel = <T extends { id: number }>({
   }
 
   return (
-    <CarouselContainer>
-      <CarouselTrack style={{ transform: `translateX(-${translateX}%)` }}>
+    <CarouselContainer data-testid="carousel-container">
+      <CarouselTrack
+        data-testid="carousel-track"
+        $translateX={translateX}
+      >
         {data.map((slide, index) => {
           // Use intersaction observer solution instead of calculation, will discuss trade-off later
           const isInView = true; //index >= startVisible && index <= endVisible;
           return (
             <CarouselSlide
               key={slide.id}
-              isSelected={selectedIndex === index}
-              isInView={isInView}
+              data-testid={`carousel-slide-${slide.id}`}
+              $isSelected={selectedIndex === index}
+              $isInView={isInView}
             >
               {isInView && onRender(slide, index)}
             </CarouselSlide>

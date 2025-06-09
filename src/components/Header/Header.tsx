@@ -49,9 +49,9 @@ const NavLinks = styled.ul`
   font-weight: 700;
 `;
 
-const NavItem = styled.li<{ isActive?: boolean }>`
+const NavItem = styled.li<{ $isActive?: boolean }>`
   a {
-    color: ${props => props.isActive ? 'white' : 'var(--colour-white-20)'};
+    color: ${props => props.$isActive ? 'white' : 'var(--colour-white-20)'};
     text-decoration: none;
     font-size: 1.5rem;
 
@@ -66,7 +66,7 @@ const NavLink: React.FC<NavItemProps> = ({ href, children }) => {
   const isActive = location.pathname === href;
   
   return (
-    <NavItem isActive={isActive}>
+    <NavItem $isActive={isActive}>
       <Link to={href}>{children}</Link>
     </NavItem>
   );

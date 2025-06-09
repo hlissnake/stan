@@ -14,22 +14,22 @@ const ProgramContainer = styled.div`
   padding: 0 var(--layout-gutter);
 `;
 
-const ProgramImage = styled.div<{ isLoading?: boolean }>`
+const ProgramImage = styled.div<{ $isLoading?: boolean }>`
   width: calc(100% / var(--entry-count-grid) - var(--entry-gutter-x));
   aspect-ratio: 228 / 342;
 
   ${(props) =>
-    props.isLoading
+    props.$isLoading
       ? `background-color: var(--colour-white-20); opacity:1`
       : ""};
 `;
 
-const ProgramTitle = styled.h1<{ isLoading?: boolean }>`
+const ProgramTitle = styled.h1<{ $isLoading?: boolean }>`
   font-size: 2.5rem;
   margin-bottom: 1rem;
 
   ${(props) =>
-    props.isLoading
+    props.$isLoading
       ? `
       background-color: var(--colour-white-20);
       width: 300px;
@@ -38,14 +38,14 @@ const ProgramTitle = styled.h1<{ isLoading?: boolean }>`
       : ""};
 `;
 
-const ProgramDescription = styled.p<{ isLoading?: boolean }>`
+const ProgramDescription = styled.p<{ $isLoading?: boolean }>`
   font-size: 1.2rem;
   line-height: 1.6;
   margin-bottom: 2rem;
   width: 800px;
 
   ${(props) =>
-    props.isLoading
+    props.$isLoading
       ? `
     background-color: var(--colour-white-20);
     height: 200px;
@@ -83,14 +83,16 @@ const Program: React.FC = () => {
 
   return (
     <ProgramContainer>
-      <ProgramImage isLoading={isLoading}>
+      <ProgramImage $isLoading={isLoading} data-testid="program-image">
         {program?.image && (
           <StanImage src={program.image} alt={program.title} />
         )}
       </ProgramImage>
       <div>
-        <ProgramTitle isLoading={isLoading}>{program?.title}</ProgramTitle>
-        <ProgramDescription isLoading={isLoading}>
+        <ProgramTitle $isLoading={isLoading} data-testid="program-title">
+          {program?.title}
+        </ProgramTitle>
+        <ProgramDescription $isLoading={isLoading} data-testid="program-desc">
           {program?.description}
         </ProgramDescription>
       </div>
