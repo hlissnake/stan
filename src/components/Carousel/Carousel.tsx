@@ -93,15 +93,9 @@ const Carousel = <T extends { id: number }>({
   });
 
   useEffect(() => {
-    setCurrentSlide((prev) => {
-      const index = selectedIndex - prev * slidePageSize;
-      if (index >= slidePageSize) {
-        return prev + 1;
-      } else if (index < 0) {
-        return prev - 1;
-      }
-      return prev;
-    });
+    // Scrolling page index
+    const pageIndex = Math.floor(selectedIndex / slidePageSize);
+    setCurrentSlide(pageIndex);
   }, [selectedIndex, slidePageSize]);
 
   useEffect(() => {
@@ -109,8 +103,10 @@ const Carousel = <T extends { id: number }>({
     if ((currentSlide + 1) * slidePageSize > data.length) {
       // If last page less than one slide page size, then only translate to the end of list
       setTranslateX(
-        ((data.length - currentSlide * slidePageSize) * 100) / slidePageSize +
-          (currentSlide - 1) * 100
+        100 *
+          ((data.length - currentSlide * slidePageSize) / slidePageSize +
+            currentSlide -
+            1)
       );
     } else {
       setTranslateX(currentSlide * 100);

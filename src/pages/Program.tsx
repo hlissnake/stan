@@ -78,6 +78,7 @@ const Program: React.FC = () => {
 
   useEffect(() => {
     if (program) {
+      // When refresh from program page, restoring the carousel selected index and correct translate movement
       dispatch(setSelectedProgram(program));
     }
   }, [program, dispatch]);

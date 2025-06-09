@@ -38,6 +38,10 @@ const useKeyboardNavigation = ({
     };
   }, [handleKeyDown]);
 
+  useEffect(() => {
+    setSelectedIndex(initialSelected);
+  }, [initialSelected]);
+
   return selectedIndex;
 };
 
