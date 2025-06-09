@@ -104,20 +104,18 @@ const Carousel = <T extends { id: number }>({
 
   useEffect(() => {
     if (data.length === 0) return;
+    let offset = currentSlide;
+    // If last page less than one slide page size, then only translate to the end of list
     if ((currentSlide + 1) * slidePageSize > data.length) {
-      // If last page less than one slide page size, then only translate to the end of list
-      setTranslateX(
-        100 *
-          ((data.length - currentSlide * slidePageSize) / slidePageSize +
-            currentSlide -
-            1)
-      );
-    } else {
-      setTranslateX(currentSlide * 100);
+      offset =
+        (data.length - currentSlide * slidePageSize) / slidePageSize +
+        currentSlide -
+        1;
     }
+    setTranslateX(offset * 100);
     // Calculating the visible item range in side the viewport screen
-    setStartVisible(currentSlide * slidePageSize - 1);
-    setEndVisible((currentSlide + 1) * slidePageSize + 1);
+    setStartVisible(offset * slidePageSize - 1);
+    setEndVisible((offset + 1) * slidePageSize);
   }, [currentSlide, slidePageSize, data.length]);
 
   if (isLoading) {

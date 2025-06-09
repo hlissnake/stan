@@ -114,7 +114,7 @@ When **backspace** to Home page, should recover the selected Carousel item statu
 - Home Carousel, test case cover:
 
   - Loading skeleton
-  - Track movement
+  - Track movement: render elements only inside viewport when moving track
   - Keyboard Selection
   - Responsive Screen Size for item visible
 

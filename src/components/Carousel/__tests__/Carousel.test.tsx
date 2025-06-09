@@ -133,6 +133,35 @@ describe("Carousel", () => {
       // Should move to next page (100%)
       expect(track).toHaveStyle({ transform: "translateX(-25%)" });
     });
+
+    it("render elements only inside viewport when moving track to next slide", () => {
+      const { rerender } = renderCarousel();
+      // Only render 1 - 6 items
+      let insideItems = screen.getAllByTestId(/carousel-content-(1|2|3|4|5|6)/);
+      expect(insideItems).toHaveLength(6);
+      // Should not render 7 - 10 items
+      let outsideItems = screen.queryAllByTestId(/carousel-content-(7|8|9|10)/);
+      expect(outsideItems).toHaveLength(0);
+
+      // Move to last page
+      mockUseKeyboardNavigation.mockReturnValue(5);
+      rerender(
+        <Carousel
+          data={mockData}
+          onEnter={jest.fn()}
+          children={(item) => (
+            <div data-testid={`carousel-content-${item.id}`}>{item.title}</div>
+          )}
+        />
+      );
+
+      // Only render 5 - 10 items
+      insideItems = screen.getAllByTestId(/carousel-content-(5|6|7|8|9|10)/);
+      expect(insideItems).toHaveLength(6);
+      // Should not render 1 - 4 items
+      outsideItems = screen.queryAllByTestId(/carousel-content-(1|2|3|4)^/);
+      expect(outsideItems).toHaveLength(0);
+    });
   });
 
   describe("Keyboard Selection", () => {
@@ -164,11 +193,11 @@ describe("Carousel", () => {
     it("renders items only visible in the screen viewport", () => {
       const { rerender } = renderCarousel();
 
-      // Test MD screen (7 items visible)
+      // Test MD screen (6 items visible)
       let slides = screen.getAllByTestId(/carousel-content-\d+/);
-      expect(slides).toHaveLength(7);
+      expect(slides).toHaveLength(6);
 
-      // Test XXL screen (10 items visible)
+      // Test XXL screen (9 items visible)
       mockUseScreenSize.mockReturnValue("XXL");
       rerender(
         <Carousel
@@ -180,7 +209,7 @@ describe("Carousel", () => {
         />
       );
       slides = screen.getAllByTestId(/carousel-content-\d+/);
-      expect(slides).toHaveLength(10);
+      expect(slides).toHaveLength(9);
     });
   });
 
