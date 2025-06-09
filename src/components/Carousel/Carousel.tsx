@@ -42,13 +42,17 @@ const CarouselSlide = styled.div<{
   background-color: ${(props) =>
     props.$isLoading ? "var(--colour-white-20)" : "transparent"};
   opacity: ${(props) => (props.$isInView ? 1 : 0)};
-  transition: opacity 0.4s ease-in-out 0.2s;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.04);
+  }
 
   &::after {
     content: "";
     position: absolute;
-    inset: -8px;
-    border: 4px solid var(--colour-stan-blue);
+    inset: -8px -8px -2px -8px;
+    border: 3px solid var(--colour-stan-blue);
     border-radius: 6px;
     opacity: ${(props) => (props.$isSelected ? 1 : 0)};
     transition: opacity 0.2s ease;
