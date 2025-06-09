@@ -82,8 +82,9 @@ const App: React.FC = () => {
           <Header />
           <MainContent>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/program/:id" element={<Program />} />
+              <Route path="/" element={<Home />}>
+                <Route path="program/:id" element={<Program />} />
+              </Route>
             </Routes>
           </MainContent>
         </AppContainer>

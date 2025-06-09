@@ -15,6 +15,7 @@ const ProgramContainer = styled.div`
   gap: var(--layout-gutter);
   color: white;
   padding: 0 var(--layout-gutter);
+  height: 100%;
 `;
 
 const ProgramImage = styled.div<{ $isLoading?: boolean }>`
@@ -78,7 +79,7 @@ const Program: React.FC = () => {
     if (program) {
       dispatch(setSelectedProgram(program));
     }
-  }, [program]);
+  }, [program, dispatch]);
 
   useBackspace(() => {
     navigate("/");
