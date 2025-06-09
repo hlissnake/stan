@@ -15,6 +15,7 @@ const ProgramContainer = styled.div`
   gap: var(--layout-gutter);
   color: white;
   padding: 0 var(--layout-gutter);
+  margin: var(--entry-gutter-x) 0;
   height: 100%;
 `;
 

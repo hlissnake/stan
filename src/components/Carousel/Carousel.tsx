@@ -47,9 +47,9 @@ const CarouselSlide = styled.div<{
   &::after {
     content: "";
     position: absolute;
-    inset: -4px;
-    border: 3px solid var(--colour-stan-blue);
-    border-radius: 4px;
+    inset: -8px;
+    border: 4px solid var(--colour-stan-blue);
+    border-radius: 6px;
     opacity: ${(props) => (props.$isSelected ? 1 : 0)};
     transition: opacity 0.2s ease;
   }
@@ -150,6 +150,7 @@ const Carousel = <T extends { id: number }>({
               data-testid={`carousel-slide-${slide.id}`}
               $isSelected={selectedIndex === index}
               $isInView={isInView}
+              className={selectedIndex === index ? "slide-selected" : ""} // for unit-testing only
             >
               {isInView && onRender(slide, index)}
             </CarouselSlide>

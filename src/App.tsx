@@ -34,10 +34,10 @@ const GlobalStyle = createGlobalStyle`
   }
     
   :root {
-    --entry-gutter-x: 0.5rem;
-    --entry-gutter-y: 0.5rem;
+    --entry-gutter-x: 1rem;
+    --entry-gutter-y: 1rem;
     --entry-count-grid: 5; /* default for 720p */
-    --layout-gutter: 2rem;
+    --layout-gutter: 4rem;
     --layout-max-width: 120rem;
     --component-margin: 2rem;
     --background-color: #141414;
