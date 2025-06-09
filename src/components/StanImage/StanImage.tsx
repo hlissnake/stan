@@ -12,7 +12,7 @@ const ImageContainer = styled.div<{ isInView?: boolean }>`
   aspect-ratio: 228 / 342;
   position: relative;
   opacity: ${(props) => (props.isInView ? 1 : 0)};
-  transition: opacity 0.4s ease-in-out 0.2s;
+  transition: opacity 0.3s ease-in-out 0.1s;
   overflow: hidden;
 `;
 

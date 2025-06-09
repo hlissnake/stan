@@ -317,16 +317,5 @@
       "genre": "Drama",
       "year": 2017,
       "language": "English"
-    },
-    {
-      "id": 1000510,
-      "title": "Persepolis",
-      "description": "A poignant coming-of-age story of a precocious and outspoken young Iranian girl's life in pre- and post-revolutionary Iran, and then Europe. Based on director Marjane Satrapi's autobiographical graphic novel.",
-      "type": "movie",
-      "image": "https://streamcoimg-a.akamaihd.net/000/100/0510/1000510-PosterArt-2d486d69504682f2961f0493833a0334.jpg?resize=512px:*&quality=75&preferredFormat=image/jpeg",
-      "rating": "M",
-      "genre": "Animation",
-      "year": 2006,
-      "language": "Iranian"
     }
   ]
