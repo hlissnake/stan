@@ -49,7 +49,7 @@ const CarouselSlide = styled.div<{
   &::after {
     content: "";
     position: absolute;
-    inset: -4px -4px 1px -4px;
+    inset: -4px;
     border: 3px solid var(--colour-stan-blue);
     border-radius: 4px;
     opacity: ${(props) => (props.isSelected ? 1 : 0)};
@@ -111,6 +111,7 @@ const Carousel = <T extends { id: number }>({
     } else {
       setTranslateX(currentSlide * 100);
     }
+    // Calculating the visible item range in side the viewport screen
     setStartVisible(currentSlide * slidePageSize - 1);
     setEndVisible((currentSlide + 1) * slidePageSize + 1);
   }, [currentSlide, slidePageSize, data.length]);
@@ -132,6 +133,7 @@ const Carousel = <T extends { id: number }>({
     <CarouselContainer>
       <CarouselTrack style={{ transform: `translateX(-${translateX}%)` }}>
         {data.map((slide, index) => {
+          // Use intersaction observer solution instead of calculation, will discuss trade-off later
           const isInView = true; //index >= startVisible && index <= endVisible;
           return (
             <CarouselSlide

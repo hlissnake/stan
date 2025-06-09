@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
-interface CarouselImageProps {
+interface StanImageProps {
   src: string;
   alt: string;
 }
@@ -22,7 +22,7 @@ const StyledImage = styled.img`
   object-fit: cover;
 `;
 
-const CarouselImage: React.FC<CarouselImageProps> = ({ src, alt }) => {
+const StanImage: React.FC<StanImageProps> = ({ src, alt }) => {
   const [imageSrc, setImageSrc] = useState("");
   const [isInView, setIsInView] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,10 +34,8 @@ const CarouselImage: React.FC<CarouselImageProps> = ({ src, alt }) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            console.log('on', entry)
             setIsInView(true);
           } else {
-            console.log('off', entry)
             setIsInView(false);
           }
         });
@@ -75,4 +73,4 @@ const CarouselImage: React.FC<CarouselImageProps> = ({ src, alt }) => {
   );
 };
 
-export default CarouselImage;
+export default StanImage;
