@@ -61,7 +61,7 @@ export const fetchPrograms = createAsyncThunk(
     const programs = await fetchProgramsNormalized().catch((e) => {
       throw e;
     });
-    // testing for slow API request
+    // Mocking for slow API request: 2s
     await new Promise((resolve) => setTimeout(resolve, 2000));
     return programs;
   }
