@@ -104,6 +104,7 @@ const Carousel = <T extends { id: number }>({
   useEffect(() => {
     if (data.length == 0) return;
     if ((currentSlide + 1) * slidePageSize > data.length) {
+      // If last page less than one slide page size, then only translate to the end of list
       setTranslateX(
         ((data.length - currentSlide * slidePageSize) * 100) / slidePageSize +
           (currentSlide - 1) * 100
