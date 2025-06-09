@@ -180,7 +180,7 @@ describe("Program", () => {
       });
     });
 
-    it("dispatches fetchPrograms when programs are not loaded", () => {
+    it("dispatches fetchPrograms when programs are not loaded", async () => {
       const store = createTestStore({
         programs: { byIds: {}, ids: [] },
         status: "idle",
@@ -196,8 +196,9 @@ describe("Program", () => {
           </MemoryRouter>
         </Provider>
       );
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      await waitFor(() => {
+        expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
