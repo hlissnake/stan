@@ -1,7 +1,9 @@
 ### App Demo:
+
 [Stan App.webm](https://github.com/user-attachments/assets/045f3050-11b2-4a8a-9cc7-da2df5a0de5d)
 
 ### Running Project
+
 ```
 npm start
 ```
@@ -26,6 +28,16 @@ The only different thing is: I'm using the **Normalizerd** Data Structure instea
 ```
 
 #### Page framework
+
+Home page is the root path, Program is rendered as a sub-router under the Home path.
+This is for Carousel Selected index restore if backspace from Program to Home page.
+
+```
+App
+├── Home (/)
+│   └── Program (/program/:id)
+│
+```
 
 I copy the same layout pattern from current **Stan main site**, and using some of the same CSS vars as well.
 Currently only support 720P and 1080P responsive screen size
@@ -79,8 +91,23 @@ Core Component: **StanIamge**, **Carousel**
 
 - Reuse the **StanImage** component for image src lazy preloading
 
-- TODO: when backspace to Home page, should recover the selected Carousel item status
-  - Need to presist the Carousel selection in Redux local state;
-  - Modify Carousel component to receive the initial item selected index;
+- When **backspace** to Home page, should recover the selected Carousel item status
+
+1.  **Local State presist solution**:
+
+- Need to presist the Carousel selection in Redux local state;
+- Carousel component to receive the initial item selected index to make translate movement;
+- Trade-off:
+  - Clear Pages framework as Home and Program are seperate;
+  - But complex logic on calculation, also with extra transition animation when restoring from backspace
+
+2.  **Program page renderred as sub-router under Home path**:
+
+- Home page will not un-mounted from DOM, so the Carousel component state is remained
+- Trade-off:
+  - More memory usage in DOM element for Program page;
+  - Less Home Carousel DOM element mount and re-render;
+  - Easy for maintain, less calculation logic;
+
 
 ### Component Unit Testing (TODO)
