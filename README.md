@@ -1,5 +1,7 @@
-### Running Project
+### App Demo:
+[Stan App.webm](https://github.com/user-attachments/assets/045f3050-11b2-4a8a-9cc7-da2df5a0de5d)
 
+### Running Project
 ```
 npm start
 ```
